@@ -1,0 +1,868 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+}
+
+.contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.formulario {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 350px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.formulario h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.formulario label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.formulario input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.formulario button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.formulario button:hover {
+  background-color: #1d4ed8;
+}
+
+.formulario p {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.dashboard-contenedor {
+  padding: 30px;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+  min-height: 100vh;
+}
+
+.dashboard-contenedor h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.dashboard-contenedor p {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.tarjeta {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.tarjeta h3 {
+  margin-bottom: 10px;
+  color: #2563eb;
+}
+
+.tarjeta p {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.productos-contenedor {
+  margin-top: 40px;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.productos-contenedor h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.resumen-inventario {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.resumen-inventario-card {
+  background: #f9fafb;
+  border-left: 4px solid #2563eb;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.resumen-inventario-card span {
+  color: #4b5563;
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.resumen-inventario-card strong {
+  color: #111827;
+  font-size: 26px;
+}
+
+.resumen-inventario-card.disponible {
+  border-left-color: #16a34a;
+}
+
+.resumen-inventario-card.bajo {
+  border-left-color: #d97706;
+}
+
+.resumen-inventario-card.agotado {
+  border-left-color: #dc2626;
+}
+
+.formulario-producto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.formulario-producto input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.formulario-producto button {
+  grid-column: 1 / -1;
+  padding: 10px;
+  border: none;
+  background-color: #16a34a;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.formulario-producto button:hover {
+  background-color: #15803d;
+}
+
+.acciones-formulario-producto {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.acciones-formulario-producto button {
+  flex: 1 1 180px;
+}
+
+.acciones-formulario-producto .btn-cancelar {
+  background-color: #6b7280;
+}
+
+.acciones-formulario-producto .btn-cancelar:hover {
+  background-color: #4b5563;
+}
+
+.formulario-producto button:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.barra-inventario {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.barra-inventario input {
+  width: 100%;
+  max-width: 320px;
+  padding: 11px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.filtro-categoria {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #374151;
+  font-weight: bold;
+  max-width: 210px;
+  padding: 11px;
+}
+
+.barra-inventario span {
+  color: #4b5563;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.filtros-stock {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filtros-stock button {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  color: #374151;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 8px 12px;
+}
+
+.filtros-stock button:hover,
+.filtros-stock button.activo {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: white;
+}
+
+.btn-exportar-inventario {
+  background: #0f766e;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 11px 14px;
+  white-space: nowrap;
+}
+
+.btn-exportar-inventario:hover {
+  background: #0f5f59;
+}
+
+.mensaje-producto,
+.error-producto {
+  text-align: center;
+  font-weight: bold;
+}
+
+.mensaje-producto {
+  color: #166534;
+}
+
+.error-producto {
+  color: #dc2626;
+}
+
+.tabla-productos-wrapper {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.tabla-productos {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 860px;
+}
+
+.tabla-productos th,
+.tabla-productos td {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 9px 10px;
+  text-align: center;
+}
+
+.tabla-productos th {
+  background-color: #f3f4f6;
+  color: #374151;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.btn-ordenar {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-weight: bold;
+  padding: 0;
+  text-transform: uppercase;
+}
+
+.btn-ordenar:hover {
+  color: #2563eb;
+}
+
+.tabla-productos tbody tr:hover {
+  background: #f9fafb;
+}
+
+.tabla-productos tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.celda-producto {
+  color: #111827;
+  font-weight: bold;
+  text-align: left;
+}
+
+.celda-monto,
+.celda-cantidad {
+  font-variant-numeric: tabular-nums;
+  font-weight: bold;
+}
+
+.estado-stock {
+  display: inline-block;
+  min-width: 92px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.estado-stock.disponible {
+  background: #16a34a;
+}
+
+.estado-stock.bajo {
+  background: #d97706;
+}
+
+.estado-stock.agotado {
+  background: #dc2626;
+}
+
+.acciones-tabla-producto {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.acciones-tabla-producto button {
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 7px 9px;
+}
+
+.btn-editar {
+  background: #2563eb;
+}
+
+.btn-editar:hover {
+  background: #1d4ed8;
+}
+
+.btn-eliminar {
+  background: #dc2626;
+}
+
+.btn-eliminar:hover {
+  background: #b91c1c;
+}
+
+.modal-eliminar-producto {
+  align-items: center;
+  background: rgba(17, 24, 39, 0.55);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 20;
+}
+
+.modal-eliminar-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+  max-width: 420px;
+  padding: 24px;
+  width: 100%;
+}
+
+.modal-eliminar-card h3 {
+  color: #111827;
+  margin: 0 0 10px;
+}
+
+.modal-eliminar-card p {
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0 0 20px;
+}
+
+.acciones-modal-eliminar {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.acciones-modal-eliminar button {
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 10px 14px;
+}
+
+.acciones-modal-eliminar button:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.btn-cancelar-eliminar {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.btn-confirmar-eliminar {
+  background: #dc2626;
+  color: white;
+}
+
+.btn-confirmar-eliminar:hover {
+  background: #b91c1c;
+}
+.alertas-contenedor {
+  margin-top: 40px;
+  background: #fff5f5;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #fca5a5;
+}
+
+.alertas-contenedor h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #dc2626;
+}
+
+.tabla-alertas {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-alertas th,
+.tabla-alertas td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla-alertas th {
+  background-color: #dc2626;
+  color: white;
+}
+
+.mensaje-alerta,
+.error-alerta {
+  text-align: center;
+  font-weight: bold;
+}
+
+.error-alerta {
+  color: #dc2626;
+}
+
+.estado-vencimiento {
+  display: inline-block;
+  min-width: 110px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: white;
+  font-weight: bold;
+}
+
+.estado-vencimiento.vencido {
+  background: #991b1b;
+}
+
+.estado-vencimiento.urgente {
+  background: #dc2626;
+}
+
+.estado-vencimiento.proximo {
+  background: #d97706;
+}
+
+.menu-panel {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.boton-menu {
+  text-decoration: none;
+  background-color: #2563eb;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.boton-menu:hover {
+  background-color: #1d4ed8;
+}
+
+.pagina-contenedor {
+  margin-left: 250px;
+  padding: 30px;
+  background-color: #f4f6f8;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+.boton-volver {
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  background-color: #6b7280;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.boton-volver:hover {
+  background-color: #4b5563;
+}
+.rentabilidad-contenedor {
+  margin-top: 20px;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.rentabilidad-contenedor h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.tabla-rentabilidad {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-rentabilidad th,
+.tabla-rentabilidad td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla-rentabilidad th {
+  background-color: #16a34a;
+  color: white;
+}
+.ventas-contenedor {
+  margin-top: 20px;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ventas-contenedor h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.formulario-venta {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.formulario-venta select,
+.formulario-venta input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.formulario-venta button {
+  padding: 10px;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.formulario-venta button:hover {
+  background-color: #1d4ed8;
+}
+
+.tabla-ventas {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-ventas th,
+.tabla-ventas td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla-ventas th {
+  background-color: #2563eb;
+  color: white;
+}
+.reportes-contenedor {
+  margin-top: 20px;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.reportes-encabezado {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.reportes-encabezado h2 {
+  margin: 0;
+  color: #1f2937;
+}
+
+.reportes-encabezado p {
+  margin: 8px 0 0;
+  color: #6b7280;
+}
+
+.reportes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.reporte-card {
+  border-radius: 10px;
+  color: white;
+  padding: 20px;
+  min-height: 95px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.reporte-card span {
+  font-weight: bold;
+}
+
+.reporte-card strong {
+  font-size: 28px;
+}
+
+.reporte-card.usuarios {
+  background: #2563eb;
+}
+
+.reporte-card.productos {
+  background: #16a34a;
+}
+
+.reporte-card.lotes {
+  background: #7c3aed;
+}
+
+.reporte-card.alertas {
+  background: #d97706;
+}
+
+.reporte-card.ganancia {
+  background: #0f766e;
+}
+
+.reporte-detalle h3 {
+  margin: 0 0 15px;
+  color: #1f2937;
+}
+
+.tabla-reportes {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-reportes th,
+.tabla-reportes td {
+  border: 1px solid #ddd;
+  padding: 12px;
+}
+
+.tabla-reportes th {
+  width: 50%;
+  background: #f3f4f6;
+  color: #374151;
+  text-align: left;
+}
+
+.tabla-reportes td {
+  font-weight: bold;
+  text-align: right;
+}
+
+.mensaje-reporte,
+.error-reporte {
+  text-align: center;
+  font-weight: bold;
+}
+
+.error-reporte {
+  color: #dc2626;
+}
+.icono {
+  font-size: 30px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* TARJETAS DE DASHBOARD */
+.tarjeta {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.tarjeta:hover {
+  transform: scale(1.05);
+}
+
+/* COLORES POR TIPO */
+.tarjeta-usuarios { border-left: 5px solid #2563eb; }
+.tarjeta-productos { border-left: 5px solid #16a34a; }
+.tarjeta-lotes { border-left: 5px solid #9333ea; }
+.tarjeta-alertas { border-left: 5px solid #dc2626; }
+.tarjeta-ganancia { border-left: 5px solid #f59e0b; }
+
+/* MENU COMO TARJETAS */
+.menu-tarjetas {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.tarjeta-menu {
+  text-decoration: none;
+  background: #2563eb;
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: bold;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.tarjeta-menu span {
+  font-size: 30px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.tarjeta-menu:hover {
+  background: #1d4ed8;
+  transform: scale(1.05);
+}
+.contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  background-image: url('./assets/fondo-farmacia.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.formulario {
+  background: rgba(255, 255, 255, 0.92);
+  padding: 35px;
+  border-radius: 15px;
+  width: 350px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+@media (max-width: 768px) {
+  .pagina-contenedor {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .formulario-venta {
+    grid-template-columns: 1fr;
+  }
+
+  .barra-inventario {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .barra-inventario input {
+    max-width: none;
+  }
+
+  .filtro-categoria {
+    max-width: none;
+    width: 100%;
+  }
+
+  .btn-exportar-inventario {
+    width: 100%;
+  }
+}
