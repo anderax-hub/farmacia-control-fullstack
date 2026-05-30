@@ -3,6 +3,17 @@ import axios from 'axios'
 
 const API_PRODUCTOS = 'https://localhost:7120/api/Productos'
 
+const PRESENTACIONES_VENTA = [
+  'Unidad',
+  'Blister',
+  'Caja',
+  'Frasco',
+  'Tubo',
+  'Sobre',
+  'Ampolla',
+  'Bolsa'
+]
+
 const obtenerEstadoStock = (stock) => {
   if (stock <= 0) return 'agotado'
   if (stock <= 5) return 'bajo'
@@ -41,6 +52,11 @@ const crearValorCsv = (valor) => {
   return `"${String(valor ?? '').replaceAll('"', '""')}"`
 }
 
+const formatearUnidadesPresentacion = (valor) => {
+  const unidades = Number(valor) || 1
+  return `${unidades} ${unidades === 1 ? 'unidad' : 'unidades'}`
+}
+
 function Productos() {
   const [productos, setProductos] = useState([])
   const [nombre, setNombre] = useState('')
@@ -48,6 +64,8 @@ function Productos() {
   const [costo, setCosto] = useState('')
   const [precio, setPrecio] = useState('')
   const [cantidad, setCantidad] = useState('')
+  const [presentacionVenta, setPresentacionVenta] = useState('Unidad')
+  const [unidadesPorPresentacion, setUnidadesPorPresentacion] = useState('1')
   const [proveedor, setProveedor] = useState('')
   const [busqueda, setBusqueda] = useState('')
   const [filtroEstado, setFiltroEstado] = useState('todos')
@@ -67,6 +85,8 @@ function Productos() {
     setCosto('')
     setPrecio('')
     setCantidad('')
+    setPresentacionVenta('Unidad')
+    setUnidadesPorPresentacion('1')
     setProveedor('')
     setProductoEditando(null)
   }
@@ -139,6 +159,7 @@ function Productos() {
       const coincideTexto = !texto || [
         producto.nombre,
         producto.categoria,
+        producto.presentacionVenta,
         producto.proveedor
       ].some((valor) => valor?.toLowerCase().includes(texto))
 
@@ -168,26 +189,33 @@ function Productos() {
     setCosto(String(producto.costo))
     setPrecio(String(producto.precio))
     setCantidad(String(producto.cantidad))
+    setPresentacionVenta(producto.presentacionVenta || 'Unidad')
+    setUnidadesPorPresentacion(String(producto.unidadesPorPresentacion || 1))
     setProveedor(producto.proveedor)
     setMensaje('')
     setError('')
   }
 
   const validarProducto = (producto) => {
-    if (!producto.nombre || !producto.categoria || !producto.proveedor) {
-      return 'Nombre, categoria y proveedor son obligatorios'
+    if (!producto.nombre || !producto.categoria || !producto.presentacionVenta || !producto.proveedor) {
+      return 'Nombre, categoria, presentacion y proveedor son obligatorios'
     }
 
     if (
       !Number.isFinite(producto.costo) ||
       !Number.isFinite(producto.precio) ||
-      !Number.isInteger(producto.cantidad)
+      !Number.isInteger(producto.cantidad) ||
+      !Number.isInteger(producto.unidadesPorPresentacion)
     ) {
-      return 'Costo, precio y cantidad deben ser numeros validos'
+      return 'Costo, precio, cantidad y unidades por presentacion deben ser numeros validos'
     }
 
     if (producto.costo < 0 || producto.precio < 0 || producto.cantidad < 0) {
       return 'Costo, precio y cantidad no pueden ser negativos'
+    }
+
+    if (producto.unidadesPorPresentacion < 1) {
+      return 'Las unidades por presentacion deben ser mayores a cero'
     }
 
     if (producto.precio < producto.costo) {
@@ -198,12 +226,13 @@ function Productos() {
       return (
         productoExistente.id !== productoEditando?.id &&
         normalizarTexto(productoExistente.nombre) === normalizarTexto(producto.nombre) &&
+        normalizarTexto(productoExistente.presentacionVenta || 'Unidad') === normalizarTexto(producto.presentacionVenta) &&
         normalizarTexto(productoExistente.proveedor) === normalizarTexto(producto.proveedor)
       )
     })
 
     if (existeDuplicado) {
-      return 'Ya existe un producto con ese nombre y proveedor'
+      return 'Ya existe un producto con ese nombre, presentacion y proveedor'
     }
 
     return ''
@@ -243,6 +272,8 @@ function Productos() {
       'Costo',
       'Precio',
       'Cantidad',
+      'Presentacion',
+      'Unidades por presentacion',
       'Estado',
       'Proveedor'
     ]
@@ -253,6 +284,8 @@ function Productos() {
       Number(producto.costo).toFixed(2),
       Number(producto.precio).toFixed(2),
       producto.cantidad,
+      producto.presentacionVenta || 'Unidad',
+      producto.unidadesPorPresentacion || 1,
       obtenerTextoStock(producto.cantidad),
       producto.proveedor
     ])
@@ -287,6 +320,8 @@ function Productos() {
       costo: Number(costo),
       precio: Number(precio),
       cantidad: Number.parseInt(cantidad, 10),
+      presentacionVenta,
+      unidadesPorPresentacion: Number.parseInt(unidadesPorPresentacion, 10),
       proveedor: proveedor.trim()
     }
 
@@ -390,6 +425,26 @@ function Productos() {
           onChange={(e) => setCantidad(e.target.value)}
           required
         />
+        <select
+          aria-label="Presentacion de venta"
+          value={presentacionVenta}
+          onChange={(e) => setPresentacionVenta(e.target.value)}
+          required
+        >
+          {PRESENTACIONES_VENTA.map((presentacion) => (
+            <option key={presentacion} value={presentacion}>
+              {presentacion}
+            </option>
+          ))}
+        </select>
+        <input
+          type="number"
+          min="1"
+          placeholder="Unidades por presentacion"
+          value={unidadesPorPresentacion}
+          onChange={(e) => setUnidadesPorPresentacion(e.target.value)}
+          required
+        />
         <input
           type="text"
           placeholder="Proveedor"
@@ -439,7 +494,7 @@ function Productos() {
       <div className="barra-inventario">
         <input
           type="search"
-          placeholder="Buscar por nombre, categoria o proveedor"
+          placeholder="Buscar por nombre, categoria, presentacion o proveedor"
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
         />
@@ -534,6 +589,11 @@ function Productos() {
                   </button>
                 </th>
                 <th>
+                  <button type="button" className="btn-ordenar" onClick={() => ordenarPor('presentacionVenta')}>
+                    Presentacion{obtenerIndicadorOrden('presentacionVenta')}
+                  </button>
+                </th>
+                <th>
                   <button type="button" className="btn-ordenar" onClick={() => ordenarPor('estado')}>
                     Estado{obtenerIndicadorOrden('estado')}
                   </button>
@@ -554,6 +614,14 @@ function Productos() {
                   <td className="celda-monto">Q {Number(producto.costo).toFixed(2)}</td>
                   <td className="celda-monto">Q {Number(producto.precio).toFixed(2)}</td>
                   <td className="celda-cantidad">{producto.cantidad}</td>
+                  <td>
+                    <span className="etiqueta-presentacion">
+                      {producto.presentacionVenta || 'Unidad'}
+                    </span>
+                    <small className="detalle-presentacion">
+                      {formatearUnidadesPresentacion(producto.unidadesPorPresentacion)}
+                    </small>
+                  </td>
                   <td>
                     <span className={`estado-stock ${obtenerEstadoStock(producto.cantidad)}`}>
                       {obtenerTextoStock(producto.cantidad)}

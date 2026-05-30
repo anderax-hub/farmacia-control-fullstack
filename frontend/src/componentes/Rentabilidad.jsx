@@ -21,7 +21,8 @@ function Rentabilidad() {
     <div className="rentabilidad-contenedor">
       <h2>Rentabilidad de Productos</h2>
 
-      <table className="tabla-rentabilidad">
+      <div className="tabla-responsive">
+        <table className="tabla-rentabilidad">
         <thead>
           <tr>
             <th>Nombre</th>
@@ -46,7 +47,8 @@ function Rentabilidad() {
             </tr>
           ))}
         </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   )
 }

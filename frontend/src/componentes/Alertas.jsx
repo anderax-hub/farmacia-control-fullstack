@@ -71,30 +71,32 @@ function Alertas() {
       )}
 
       {!cargando && !error && lotes.length > 0 && (
-        <table className="tabla-alertas">
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Fecha de vencimiento</th>
-              <th>Cantidad</th>
-              <th>Dias restantes</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lotes.map((lote) => (
-              <tr key={lote.id}>
-                <td>{lote.productoNombre || `Producto ${lote.productoId}`}</td>
-                <td>{formatearFecha(lote.fechaVencimiento)}</td>
-                <td>{lote.cantidad}</td>
-                <td>
-                  <span className={`estado-vencimiento ${obtenerClaseDias(lote.diasRestantes)}`}>
-                    {obtenerTextoDias(lote.diasRestantes)}
-                  </span>
-                </td>
+        <div className="tabla-responsive">
+          <table className="tabla-alertas">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Fecha de vencimiento</th>
+                <th>Cantidad</th>
+                <th>Dias restantes</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {lotes.map((lote) => (
+                <tr key={lote.id}>
+                  <td>{lote.productoNombre || `Producto ${lote.productoId}`}</td>
+                  <td>{formatearFecha(lote.fechaVencimiento)}</td>
+                  <td>{lote.cantidad}</td>
+                  <td>
+                    <span className={`estado-vencimiento ${obtenerClaseDias(lote.diasRestantes)}`}>
+                      {obtenerTextoDias(lote.diasRestantes)}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   )

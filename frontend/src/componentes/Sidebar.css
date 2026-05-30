@@ -8,6 +8,7 @@
   top: 0;
   padding: 25px 18px;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .sidebar-logo {
@@ -39,12 +40,24 @@
   border-radius: 12px;
   font-size: 17px;
   font-weight: 600;
-  transition: 0.2s;
+  min-height: 48px;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
 }
 
 .sidebar-menu a:hover {
   background: rgba(255, 255, 255, 0.18);
   transform: translateX(4px);
+}
+
+.sidebar-menu a.activo {
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  color: #123524;
+  transform: translateX(4px);
+}
+
+.sidebar-menu a.activo:hover {
+  background: #ffffff;
 }
 
 .btn-cerrar {
@@ -65,25 +78,66 @@
   background: #c1121f;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .sidebar {
     position: static;
     width: 100%;
     height: auto;
+    padding: 18px;
+  }
+
+  .sidebar-logo {
+    margin-bottom: 18px;
+  }
+
+  .sidebar-logo h2 {
+    font-size: 22px;
   }
 
   .sidebar-menu {
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 10px;
   }
 
   .sidebar-menu a {
-    flex: 1 1 150px;
+    flex: 1 1 145px;
+    font-size: 15px;
+    padding: 11px 12px;
+    text-align: center;
+    transform: none;
+  }
+
+  .sidebar-menu a:hover,
+  .sidebar-menu a.activo {
+    transform: none;
   }
 
   .btn-cerrar {
     position: static;
     width: 100%;
     margin-top: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .sidebar {
+    padding: 14px;
+  }
+
+  .sidebar-logo p {
+    margin-bottom: 0;
+  }
+
+  .sidebar-menu {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sidebar-menu a {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    min-height: 44px;
   }
 }

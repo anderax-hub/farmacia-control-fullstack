@@ -6,17 +6,39 @@ import AlertasPagina from './paginas/AlertasPagina'
 import RentabilidadPagina from './paginas/RentabilidadPagina'
 import VentasPagina from './paginas/VentasPagina'
 import ReportesPagina from './paginas/ReportesPagina'
+import UsuariosPagina from './paginas/UsuariosPagina'
 import Sidebar from './componentes/Sidebar'
 import './App.css'
 
-function RutaProtegida({ children }) {
-  const usuario = localStorage.getItem('usuario')
-  return usuario ? (
+const obtenerUsuario = () => {
+  const usuarioGuardado = localStorage.getItem('usuario')
+  return usuarioGuardado ? JSON.parse(usuarioGuardado) : null
+}
+
+const tienePermiso = (usuario, rolesPermitidos = []) => {
+  if (!usuario) return false
+  if (usuario.rol === 'Administrador') return true
+  if (rolesPermitidos.length === 0) return true
+  return rolesPermitidos.includes(usuario.rol)
+}
+
+function RutaProtegida({ children, roles = [] }) {
+  const usuario = obtenerUsuario()
+
+  if (!usuario) {
+    return <Navigate to="/" />
+  }
+
+  if (!tienePermiso(usuario, roles)) {
+    return <Navigate to="/panel" />
+  }
+
+  return (
     <>
       <Sidebar />
       {children}
     </>
-  ) : <Navigate to="/" />
+  )
 }
 
 function App() {
@@ -37,7 +59,7 @@ function App() {
         <Route
           path="/productos"
           element={
-            <RutaProtegida>
+            <RutaProtegida roles={['Inventario']}>
               <ProductosPagina />
             </RutaProtegida>
           }
@@ -46,7 +68,7 @@ function App() {
         <Route
           path="/alertas"
           element={
-            <RutaProtegida>
+            <RutaProtegida roles={['Inventario']}>
               <AlertasPagina />
             </RutaProtegida>
           }
@@ -55,7 +77,7 @@ function App() {
         <Route
           path="/rentabilidad"
           element={
-            <RutaProtegida>
+            <RutaProtegida roles={['Inventario']}>
               <RentabilidadPagina />
             </RutaProtegida>
           }
@@ -64,7 +86,7 @@ function App() {
         <Route
           path="/ventas"
           element={
-            <RutaProtegida>
+            <RutaProtegida roles={['Ventas']}>
               <VentasPagina />
             </RutaProtegida>
           }
@@ -73,8 +95,17 @@ function App() {
         <Route
           path="/reportes"
           element={
-            <RutaProtegida>
+            <RutaProtegida roles={['Administrador']}>
               <ReportesPagina />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/usuarios"
+          element={
+            <RutaProtegida roles={['Administrador']}>
+              <UsuariosPagina />
             </RutaProtegida>
           }
         />

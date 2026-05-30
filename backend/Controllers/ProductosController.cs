@@ -10,6 +10,18 @@ namespace FarmaciaControlAPI.Controllers
     [Route("api/[controller]")]
     public class ProductosController : ControllerBase
     {
+        private static readonly string[] PresentacionesPermitidas =
+        {
+            "Unidad",
+            "Blister",
+            "Caja",
+            "Frasco",
+            "Tubo",
+            "Sobre",
+            "Ampolla",
+            "Bolsa"
+        };
+
         private readonly ContextoBD _contexto;
 
         public ProductosController(ContextoBD contexto)
@@ -62,6 +74,8 @@ namespace FarmaciaControlAPI.Controllers
             producto.Costo = productoActualizado.Costo;
             producto.Precio = productoActualizado.Precio;
             producto.Cantidad = productoActualizado.Cantidad;
+            producto.PresentacionVenta = productoActualizado.PresentacionVenta;
+            producto.UnidadesPorPresentacion = productoActualizado.UnidadesPorPresentacion;
             producto.Proveedor = productoActualizado.Proveedor;
 
             await _contexto.SaveChangesAsync();
@@ -117,18 +131,30 @@ namespace FarmaciaControlAPI.Controllers
         {
             producto.Nombre = producto.Nombre.Trim();
             producto.Categoria = producto.Categoria.Trim();
+            producto.PresentacionVenta = NormalizarPresentacion(producto.PresentacionVenta);
             producto.Proveedor = producto.Proveedor.Trim();
 
             if (string.IsNullOrWhiteSpace(producto.Nombre) ||
                 string.IsNullOrWhiteSpace(producto.Categoria) ||
+                string.IsNullOrWhiteSpace(producto.PresentacionVenta) ||
                 string.IsNullOrWhiteSpace(producto.Proveedor))
             {
-                return "Nombre, categoria y proveedor son obligatorios";
+                return "Nombre, categoria, presentacion y proveedor son obligatorios";
             }
 
             if (producto.Costo < 0 || producto.Precio < 0 || producto.Cantidad < 0)
             {
                 return "Costo, precio y cantidad no pueden ser negativos";
+            }
+
+            if (producto.UnidadesPorPresentacion < 1)
+            {
+                return "Las unidades por presentacion deben ser mayores a cero";
+            }
+
+            if (!PresentacionesPermitidas.Contains(producto.PresentacionVenta))
+            {
+                return $"Presentacion de venta invalida. Usa: {string.Join(", ", PresentacionesPermitidas)}";
             }
 
             if (producto.Precio < producto.Costo)
@@ -139,14 +165,28 @@ namespace FarmaciaControlAPI.Controllers
             var existeDuplicado = await _contexto.Productos.AnyAsync(p =>
                 p.Id != productoId &&
                 p.Nombre.ToLower() == producto.Nombre.ToLower() &&
+                p.PresentacionVenta.ToLower() == producto.PresentacionVenta.ToLower() &&
                 p.Proveedor.ToLower() == producto.Proveedor.ToLower());
 
             if (existeDuplicado)
             {
-                return "Ya existe un producto con ese nombre y proveedor";
+                return "Ya existe un producto con ese nombre, presentacion y proveedor";
             }
 
             return null;
+        }
+
+        private static string NormalizarPresentacion(string presentacion)
+        {
+            var valor = presentacion?.Trim();
+
+            if (string.IsNullOrWhiteSpace(valor))
+            {
+                return "Unidad";
+            }
+
+            return PresentacionesPermitidas.FirstOrDefault(p =>
+                p.Equals(valor, StringComparison.OrdinalIgnoreCase)) ?? valor;
         }
 
     }

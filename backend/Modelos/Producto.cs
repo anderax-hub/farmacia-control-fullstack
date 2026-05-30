@@ -25,6 +25,12 @@ namespace FarmaciaControlAPI.Modelos
         [Column("cantidad")]
         public int Cantidad { get; set; }
 
+        [Column("presentacion_venta")]
+        public string PresentacionVenta { get; set; } = "Unidad";
+
+        [Column("unidades_por_presentacion")]
+        public int UnidadesPorPresentacion { get; set; } = 1;
+
         [Column("proveedor")]
         public string Proveedor { get; set; } = string.Empty;
     }

@@ -13,6 +13,12 @@ namespace FarmaciaControlAPI.Modelos
         [Column("producto_id")]
         public int ProductoId { get; set; }
 
+        [Column("cliente")]
+        public string Cliente { get; set; } = "Consumidor final";
+
+        [Column("numero_factura")]
+        public string NumeroFactura { get; set; } = string.Empty;
+
         [Column("fecha")]
         public DateTime Fecha { get; set; }
 
