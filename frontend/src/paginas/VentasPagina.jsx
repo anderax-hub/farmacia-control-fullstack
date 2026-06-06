@@ -7,7 +7,7 @@ function VentasPagina() {
   return (
     <div className="pagina-contenedor">
       <button className="boton-volver" onClick={() => navigate('/panel')}>
-        ← Volver
+        Volver al panel
       </button>
 
       <Ventas />

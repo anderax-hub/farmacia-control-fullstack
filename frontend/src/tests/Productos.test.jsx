@@ -1,12 +1,13 @@
 import '@testing-library/jest-dom'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { describe, test, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
-import Productos from '../componentes/Productos.jsx'
+import ProductoFormulario from '../componentes/ProductoFormulario.jsx'
 
 vi.mock('axios')
 
-describe('Pruebas Módulo de Inventario - Botica Salud', () => {
+describe('Pruebas modulo de inventario - Botica Salud', () => {
   beforeEach(() => {
     vi.clearAllMocks()
 
@@ -15,7 +16,7 @@ describe('Pruebas Módulo de Inventario - Botica Salud', () => {
     })
   })
 
-  test('debe registrar un producto correctamente', async () => {
+  test('debe registrar un producto desde la vista de nuevo producto', async () => {
     axios.post.mockResolvedValue({
       data: {
         id: 1,
@@ -24,43 +25,58 @@ describe('Pruebas Módulo de Inventario - Botica Salud', () => {
         costo: 20,
         precio: 25,
         cantidad: 30,
+        presentacionVenta: 'Unidad',
+        unidadesPorPresentacion: 1,
         proveedor: 'Proveedor Central'
       }
     })
 
-    render(<Productos />)
+    render(
+      <MemoryRouter>
+        <ProductoFormulario modo="crear" />
+      </MemoryRouter>
+    )
 
-    fireEvent.change(screen.getByPlaceholderText(/^Nombre$/i), {
-  target: { value: 'Acetaminofen' }
-})
-
-fireEvent.change(screen.getByPlaceholderText(/^Categoria$/i), {
-  target: { value: 'Medicamento' }
-})
-
-fireEvent.change(screen.getByPlaceholderText(/^Costo$/i), {
-  target: { value: '20' }
-})
-
-fireEvent.change(screen.getByPlaceholderText(/^Precio$/i), {
-  target: { value: '25' }
-})
-
-fireEvent.change(screen.getByPlaceholderText(/^Cantidad$/i), {
-  target: { value: '30' }
-})
-
-fireEvent.change(screen.getByPlaceholderText(/^Proveedor$/i), {
-  target: { value: 'Proveedor Central' }
-})
-
-    fireEvent.click(screen.getByText(/guardar producto/i))
-
-    await waitFor(() => {
-      expect(axios.post).toHaveBeenCalled()
+    fireEvent.change(await screen.findByPlaceholderText(/^Nombre$/i), {
+      target: { value: 'Acetaminofen' }
     })
 
-    expect(await screen.findByText(/producto guardado correctamente/i))
-      .toBeInTheDocument()
+    fireEvent.change(screen.getByPlaceholderText(/^Categoria$/i), {
+      target: { value: 'Medicamento' }
+    })
+
+    fireEvent.change(screen.getByPlaceholderText(/^Costo$/i), {
+      target: { value: '20' }
+    })
+
+    fireEvent.change(screen.getByPlaceholderText(/^Precio$/i), {
+      target: { value: '25' }
+    })
+
+    fireEvent.change(screen.getByPlaceholderText(/^Cantidad$/i), {
+      target: { value: '30' }
+    })
+
+    fireEvent.change(screen.getByPlaceholderText(/^Proveedor$/i), {
+      target: { value: 'Proveedor Central' }
+    })
+
+    fireEvent.click(screen.getByRole('button', { name: /guardar producto/i }))
+
+    await waitFor(() => {
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          nombre: 'Acetaminofen',
+          categoria: 'Medicamento',
+          costo: 20,
+          precio: 25,
+          cantidad: 30,
+          presentacionVenta: 'Unidad',
+          unidadesPorPresentacion: 1,
+          proveedor: 'Proveedor Central'
+        })
+      )
+    })
   })
 })

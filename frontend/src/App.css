@@ -1,7 +1,32 @@
+:root {
+  --color-bg: #eef3f7;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f8fafc;
+  --color-border: #dbe3ea;
+  --color-border-soft: #e7edf3;
+  --color-text: #172033;
+  --color-muted: #64748b;
+  --color-primary: #1f6feb;
+  --color-primary-hover: #1d4ed8;
+  --color-accent: #0f766e;
+  --color-accent-hover: #0b5f59;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+  --color-purple: #6d4bd8;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --shadow-panel: 0 12px 30px rgba(15, 23, 42, 0.08);
+  --shadow-soft: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f6f8;
+  font-family: "Segoe UI", Inter, Roboto, Arial, sans-serif;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(238, 243, 247, 0.92)),
+    var(--color-bg);
+  color: var(--color-text);
 }
 
 * {
@@ -123,6 +148,57 @@ html {
   text-align: center;
 }
 
+.encabezado-inventario,
+.encabezado-vista-inventario {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.encabezado-inventario h2,
+.encabezado-vista-inventario h2 {
+  margin: 4px 0 0;
+  text-align: left;
+}
+
+.encabezado-inventario span,
+.encabezado-vista-inventario span {
+  color: #4b5563;
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn-nuevo-producto,
+.btn-secundario-inventario {
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 11px 14px;
+  white-space: nowrap;
+}
+
+.btn-nuevo-producto {
+  background: #16a34a;
+}
+
+.btn-nuevo-producto:hover {
+  background: #15803d;
+}
+
+.btn-secundario-inventario {
+  background: #6b7280;
+}
+
+.btn-secundario-inventario:hover {
+  background: #4b5563;
+}
+
 .resumen-inventario {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -167,6 +243,10 @@ html {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 10px;
   margin-bottom: 25px;
+}
+
+.formulario-producto-vista {
+  margin-bottom: 0;
 }
 
 .formulario-producto input,
@@ -356,6 +436,69 @@ html {
   border-bottom: none;
 }
 
+.paginacion-inventario,
+.paginacion-ventas {
+  align-items: center;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 12px;
+}
+
+.paginacion-inventario span,
+.paginacion-inventario strong,
+.paginacion-inventario label,
+.paginacion-ventas span,
+.paginacion-ventas strong,
+.paginacion-ventas label {
+  color: #374151;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.paginacion-controles {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.paginacion-controles button {
+  background: #2563eb;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 8px 12px;
+}
+
+.paginacion-controles button:disabled {
+  background: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.paginacion-inventario label,
+.paginacion-ventas label {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.paginacion-inventario select,
+.paginacion-ventas select {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #374151;
+  font-weight: bold;
+  padding: 8px 10px;
+}
+
 .celda-producto {
   color: #111827;
   font-weight: bold;
@@ -418,6 +561,94 @@ html {
   font-size: 12px;
   font-weight: bold;
   padding: 7px 9px;
+}
+
+.btn-ver {
+  background: #0f766e;
+}
+
+.btn-ver:hover {
+  background: #0f5f59;
+}
+
+.detalle-producto-grid,
+.producto-resumen-eliminar {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.detalle-producto-grid div,
+.producto-resumen-eliminar div {
+  background: #f9fafb;
+  border-left: 4px solid #2563eb;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.detalle-producto-grid span,
+.producto-resumen-eliminar span {
+  color: #4b5563;
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.detalle-producto-grid strong,
+.producto-resumen-eliminar strong {
+  color: #111827;
+  display: inline-block;
+  font-size: 18px;
+}
+
+.detalle-producto-grid strong.estado-stock,
+.producto-resumen-eliminar strong.estado-stock {
+  color: white;
+  font-size: 12px;
+}
+
+.detalle-producto-grid small,
+.producto-resumen-eliminar small {
+  color: #6b7280;
+  display: block;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.acciones-vista-producto {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.acciones-vista-producto button {
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 10px 14px;
+}
+
+.vista-eliminar-producto {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.vista-eliminar-producto h3 {
+  color: #9a3412;
+  margin: 0 0 8px;
+}
+
+.vista-eliminar-producto p {
+  color: #7c2d12;
+  line-height: 1.5;
+  margin: 0 0 16px;
 }
 
 .btn-editar {
@@ -646,6 +877,54 @@ html {
 .ventas-contenedor h2 {
   text-align: center;
   margin-bottom: 20px;
+}
+
+.encabezado-ventas {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.encabezado-ventas h2 {
+  margin: 4px 0 0;
+  text-align: left;
+}
+
+.encabezado-ventas span {
+  color: #4b5563;
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn-nueva-venta,
+.btn-secundario-venta {
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 11px 14px;
+  white-space: nowrap;
+}
+
+.btn-nueva-venta {
+  background: #16a34a;
+}
+
+.btn-nueva-venta:hover {
+  background: #15803d;
+}
+
+.btn-secundario-venta {
+  background: #6b7280;
+}
+
+.btn-secundario-venta:hover {
+  background: #4b5563;
 }
 
 .formulario-venta {
@@ -1079,6 +1358,13 @@ html {
   width: 100%;
 }
 
+.factura-card-vista {
+  box-shadow: none;
+  max-height: none;
+  max-width: none;
+  overflow: visible;
+}
+
 .factura-card-encabezado {
   align-items: flex-start;
   border-bottom: 2px solid #111827;
@@ -1439,11 +1725,63 @@ html {
   text-align: center;
 }
 
+.encabezado-usuarios {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.encabezado-usuarios h2 {
+  margin: 4px 0 0;
+  text-align: left;
+}
+
+.encabezado-usuarios span {
+  color: #4b5563;
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn-nuevo-usuario,
+.btn-secundario-usuario {
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 11px 14px;
+  white-space: nowrap;
+}
+
+.btn-nuevo-usuario {
+  background: #16a34a;
+}
+
+.btn-nuevo-usuario:hover {
+  background: #15803d;
+}
+
+.btn-secundario-usuario {
+  background: #6b7280;
+}
+
+.btn-secundario-usuario:hover {
+  background: #4b5563;
+}
+
 .formulario-usuario {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 10px;
   margin-bottom: 22px;
+}
+
+.formulario-usuario-vista {
+  margin-bottom: 0;
 }
 
 .formulario-usuario input,
@@ -1678,6 +2016,89 @@ html {
   background: #9ca3af;
   cursor: not-allowed;
 }
+
+.detalle-usuario-grid,
+.usuario-resumen-eliminar {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.detalle-usuario-grid div,
+.usuario-resumen-eliminar div {
+  background: #f9fafb;
+  border-left: 4px solid #2563eb;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.detalle-usuario-grid span,
+.usuario-resumen-eliminar span {
+  color: #4b5563;
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.detalle-usuario-grid strong,
+.usuario-resumen-eliminar strong {
+  color: #111827;
+  display: inline-block;
+  font-size: 18px;
+}
+
+.detalle-usuario-grid strong.estado-rol,
+.usuario-resumen-eliminar strong.estado-rol {
+  color: white;
+  font-size: 12px;
+}
+
+.detalle-usuario-grid strong.etiqueta-usuario-protegido,
+.usuario-resumen-eliminar strong.etiqueta-usuario-protegido {
+  color: #92400e;
+  font-size: 11px;
+}
+
+.detalle-usuario-grid strong.etiqueta-usuario-protegido.sesion,
+.usuario-resumen-eliminar strong.etiqueta-usuario-protegido.sesion {
+  color: #1d4ed8;
+}
+
+.acciones-vista-usuario {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.acciones-vista-usuario button {
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 10px 14px;
+}
+
+.vista-eliminar-usuario {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.vista-eliminar-usuario h3 {
+  color: #9a3412;
+  margin: 0 0 8px;
+}
+
+.vista-eliminar-usuario p {
+  color: #7c2d12;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
 .icono {
   font-size: 30px;
   display: block;
@@ -1755,6 +2176,304 @@ html {
   backdrop-filter: blur(5px);
 }
 
+/* Limpieza visual global */
+.pagina-contenedor,
+.dashboard-contenedor,
+.panel {
+  background:
+    radial-gradient(circle at top left, rgba(31, 111, 235, 0.07), transparent 34%),
+    var(--color-bg);
+}
+
+.productos-contenedor,
+.ventas-contenedor,
+.usuarios-contenedor,
+.reportes-contenedor,
+.rentabilidad-contenedor,
+.alertas-contenedor,
+.factura-card,
+.modal-eliminar-card,
+.tarjeta,
+.panel-encabezado > div:first-child,
+.panel-usuario,
+.panel-estado,
+.panel-modulos,
+.panel-metrica {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+}
+
+.productos-contenedor,
+.ventas-contenedor,
+.usuarios-contenedor,
+.rentabilidad-contenedor,
+.alertas-contenedor,
+.reportes-contenedor {
+  margin-top: 18px;
+}
+
+.productos-contenedor h2,
+.ventas-contenedor h2,
+.usuarios-contenedor h2,
+.rentabilidad-contenedor h2,
+.alertas-contenedor h2,
+.reportes-encabezado h2,
+.panel h1 {
+  color: var(--color-text);
+  letter-spacing: 0;
+}
+
+.encabezado-inventario span,
+.encabezado-vista-inventario span,
+.encabezado-ventas span,
+.encabezado-usuarios span,
+.panel-eyebrow,
+.panel-seccion-titulo span,
+.panel-estado > span,
+.panel-usuario span,
+.panel-modulo span,
+.panel-metrica span {
+  color: var(--color-muted);
+}
+
+.btn-nuevo-producto,
+.btn-nueva-venta,
+.btn-nuevo-usuario,
+.formulario-producto button,
+.formulario-usuario button[type="submit"],
+.acciones-carrito button:last-child {
+  background: var(--color-primary);
+}
+
+.btn-nuevo-producto:hover,
+.btn-nueva-venta:hover,
+.btn-nuevo-usuario:hover,
+.formulario-producto button:hover,
+.formulario-usuario button[type="submit"]:hover,
+.acciones-carrito button:last-child:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn-secundario-inventario,
+.btn-secundario-venta,
+.btn-secundario-usuario,
+.boton-volver,
+.acciones-formulario-producto .btn-cancelar,
+.acciones-formulario-usuario .btn-cancelar,
+.filtros-ventas button,
+.acciones-carrito button {
+  background: #64748b;
+}
+
+.btn-secundario-inventario:hover,
+.btn-secundario-venta:hover,
+.btn-secundario-usuario:hover,
+.boton-volver:hover,
+.acciones-formulario-producto .btn-cancelar:hover,
+.acciones-formulario-usuario .btn-cancelar:hover,
+.filtros-ventas button:hover,
+.acciones-carrito button:hover {
+  background: #475569;
+}
+
+.btn-ver,
+.btn-exportar-inventario,
+.formulario-venta .campo-cliente-venta button,
+.factura-acciones button:nth-child(1),
+.acciones-factura button:nth-child(2) {
+  background: var(--color-accent);
+}
+
+.btn-ver:hover,
+.btn-exportar-inventario:hover,
+.formulario-venta .campo-cliente-venta button:hover,
+.factura-acciones button:nth-child(1):hover,
+.acciones-factura button:nth-child(2):hover {
+  background: var(--color-accent-hover);
+}
+
+.formulario-venta button,
+.paginacion-controles button,
+.acciones-factura button:nth-child(1),
+.btn-editar {
+  background: var(--color-primary);
+}
+
+.formulario-venta button:hover,
+.paginacion-controles button:hover,
+.acciones-factura button:nth-child(1):hover,
+.btn-editar:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn-eliminar,
+.btn-confirmar-eliminar {
+  background: var(--color-danger);
+}
+
+.btn-eliminar:hover,
+.btn-confirmar-eliminar:hover {
+  background: #b91c1c;
+}
+
+.formulario-producto input,
+.formulario-producto select,
+.formulario-usuario input,
+.formulario-usuario select,
+.formulario-venta select,
+.formulario-venta input,
+.barra-inventario input,
+.barra-usuarios input,
+.filtro-categoria,
+.filtros-ventas input,
+.reportes-filtros input,
+.reportes-filtros button,
+.paginacion-inventario select,
+.paginacion-ventas select {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  outline: none;
+}
+
+.formulario-producto input:focus,
+.formulario-producto select:focus,
+.formulario-usuario input:focus,
+.formulario-usuario select:focus,
+.formulario-venta select:focus,
+.formulario-venta input:focus,
+.barra-inventario input:focus,
+.barra-usuarios input:focus,
+.filtro-categoria:focus,
+.filtros-ventas input:focus,
+.reportes-filtros input:focus,
+.paginacion-inventario select:focus,
+.paginacion-ventas select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.12);
+}
+
+.resumen-inventario-card,
+.resumen-ventas div,
+.resumen-usuario-card,
+.reporte-card,
+.detalle-producto-grid div,
+.producto-resumen-eliminar div,
+.detalle-venta-producto div,
+.factura-datos div,
+.detalle-usuario-grid div,
+.usuario-resumen-eliminar div,
+.panel-metrica,
+.panel-modulo,
+.estado-lista div {
+  background: var(--color-surface-soft);
+  border-color: var(--color-border-soft);
+  border-radius: var(--radius-md);
+}
+
+.tabla-productos-wrapper,
+.tabla-ventas-wrapper,
+.tabla-usuarios-wrapper,
+.tabla-responsive,
+.paginacion-inventario,
+.paginacion-ventas {
+  border-color: var(--color-border-soft);
+  border-radius: var(--radius-md);
+}
+
+.tabla-productos th,
+.tabla-ventas th,
+.tabla-usuarios th,
+.tabla-alertas th,
+.tabla-rentabilidad th,
+.tabla-reportes th,
+.factura-tabla th {
+  background: #f1f5f9;
+  color: #334155;
+  border-color: var(--color-border-soft);
+}
+
+.tabla-productos td,
+.tabla-ventas td,
+.tabla-usuarios td,
+.tabla-alertas td,
+.tabla-rentabilidad td,
+.tabla-reportes td,
+.factura-tabla td {
+  border-color: var(--color-border-soft);
+  color: var(--color-text);
+}
+
+.tabla-productos tbody tr:hover,
+.tabla-ventas tbody tr:hover,
+.tabla-usuarios tbody tr:hover {
+  background: #f8fbff;
+}
+
+.estado-stock.disponible,
+.estado-rol.ventas,
+.estado-punto.activo {
+  background-color: var(--color-success);
+}
+
+.estado-stock.bajo,
+.estado-rol.inventario,
+.estado-punto.alerta {
+  background-color: var(--color-warning);
+}
+
+.resumen-inventario-card.disponible,
+.resumen-usuario-card.ventas,
+.panel-metrica.productos {
+  border-left-color: var(--color-success);
+}
+
+.resumen-inventario-card.bajo,
+.resumen-usuario-card.inventario {
+  border-left-color: var(--color-warning);
+}
+
+.resumen-inventario-card.agotado,
+.panel-metrica.alertas {
+  border-left-color: var(--color-danger);
+}
+
+.estado-stock.agotado {
+  background-color: var(--color-danger);
+}
+
+.estado-rol.administrador {
+  background: var(--color-purple);
+}
+
+.mensaje-producto,
+.mensaje-venta,
+.mensaje-usuario,
+.mensaje-alerta,
+.mensaje-reporte {
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-sm);
+  color: #166534;
+  padding: 10px 12px;
+}
+
+.error-producto,
+.error-venta,
+.error-usuario,
+.error-alerta,
+.error-reporte,
+.error-login {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-sm);
+  color: #b91c1c;
+  padding: 10px 12px;
+}
+
 @media (max-width: 1024px) {
   .pagina-contenedor {
     margin-left: 0;
@@ -1777,6 +2496,23 @@ html {
     white-space: normal;
   }
 
+  .encabezado-inventario,
+  .encabezado-vista-inventario,
+  .encabezado-ventas,
+  .encabezado-usuarios {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .btn-nuevo-producto,
+  .btn-secundario-inventario,
+  .btn-nueva-venta,
+  .btn-secundario-venta,
+  .btn-nuevo-usuario,
+  .btn-secundario-usuario {
+    width: 100%;
+  }
+
   .formulario-venta {
     grid-template-columns: 1fr;
   }
@@ -1797,6 +2533,21 @@ html {
 
   .btn-exportar-inventario {
     width: 100%;
+  }
+
+  .paginacion-inventario,
+  .paginacion-ventas {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .paginacion-controles {
+    justify-content: space-between;
+  }
+
+  .paginacion-inventario label,
+  .paginacion-ventas label {
+    justify-content: space-between;
   }
 }
 

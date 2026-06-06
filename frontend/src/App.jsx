@@ -2,11 +2,19 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './paginas/Login'
 import Panel from './paginas/Panel'
 import ProductosPagina from './paginas/ProductosPagina'
+import ProductoFormularioPagina from './paginas/ProductoFormularioPagina'
+import ProductoDetallePagina from './paginas/ProductoDetallePagina'
+import ProductoEliminarPagina from './paginas/ProductoEliminarPagina'
 import AlertasPagina from './paginas/AlertasPagina'
 import RentabilidadPagina from './paginas/RentabilidadPagina'
 import VentasPagina from './paginas/VentasPagina'
+import VentaNuevaPagina from './paginas/VentaNuevaPagina'
+import VentaDetallePagina from './paginas/VentaDetallePagina'
 import ReportesPagina from './paginas/ReportesPagina'
 import UsuariosPagina from './paginas/UsuariosPagina'
+import UsuarioFormularioPagina from './paginas/UsuarioFormularioPagina'
+import UsuarioDetallePagina from './paginas/UsuarioDetallePagina'
+import UsuarioEliminarPagina from './paginas/UsuarioEliminarPagina'
 import Sidebar from './componentes/Sidebar'
 import './App.css'
 
@@ -66,6 +74,42 @@ function App() {
         />
 
         <Route
+          path="/productos/nuevo"
+          element={
+            <RutaProtegida roles={['Inventario']}>
+              <ProductoFormularioPagina modo="crear" />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/productos/:id"
+          element={
+            <RutaProtegida roles={['Inventario']}>
+              <ProductoDetallePagina />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/productos/:id/editar"
+          element={
+            <RutaProtegida roles={['Inventario']}>
+              <ProductoFormularioPagina modo="editar" />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/productos/:id/eliminar"
+          element={
+            <RutaProtegida roles={['Inventario']}>
+              <ProductoEliminarPagina />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
           path="/alertas"
           element={
             <RutaProtegida roles={['Inventario']}>
@@ -93,6 +137,24 @@ function App() {
         />
 
         <Route
+          path="/ventas/nueva"
+          element={
+            <RutaProtegida roles={['Ventas']}>
+              <VentaNuevaPagina />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/ventas/facturas/:numeroFactura"
+          element={
+            <RutaProtegida roles={['Ventas']}>
+              <VentaDetallePagina />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
           path="/reportes"
           element={
             <RutaProtegida roles={['Administrador']}>
@@ -106,6 +168,42 @@ function App() {
           element={
             <RutaProtegida roles={['Administrador']}>
               <UsuariosPagina />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/usuarios/nuevo"
+          element={
+            <RutaProtegida roles={['Administrador']}>
+              <UsuarioFormularioPagina modo="crear" />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/usuarios/:id"
+          element={
+            <RutaProtegida roles={['Administrador']}>
+              <UsuarioDetallePagina />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/usuarios/:id/editar"
+          element={
+            <RutaProtegida roles={['Administrador']}>
+              <UsuarioFormularioPagina modo="editar" />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/usuarios/:id/eliminar"
+          element={
+            <RutaProtegida roles={['Administrador']}>
+              <UsuarioEliminarPagina />
             </RutaProtegida>
           }
         />

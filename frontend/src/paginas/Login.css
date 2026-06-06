@@ -1,7 +1,7 @@
 .login-container {
   height: 100vh;
   background:
-    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+    linear-gradient(135deg, rgba(15, 23, 42, 0.78), rgba(15, 118, 110, 0.55)),
     url('/fondo-farmacia.jpg.png');
 
   background-size: cover;
@@ -14,22 +14,26 @@
 
 .login-card {
   width: 370px;
-  background: rgba(255,255,255,0.92);
-  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+  backdrop-filter: blur(10px);
 }
 
 .login-header {
-  background: linear-gradient(135deg, #2d6a4f, #40916c, #52b788);
-  padding: 30px;
-  text-align: center;
+  background: #0f172a;
+  border-bottom: 4px solid #1f6feb;
+  padding: 26px 30px;
+  text-align: left;
   color: white;
 }
 
 .login-header h1 {
   margin: 0;
-  font-size: 34px;
+  font-size: 30px;
+  letter-spacing: 0;
 }
 
 .login-header p {
@@ -45,24 +49,25 @@
   width: 100%;
   padding: 14px;
   margin-bottom: 18px;
-  border: none;
-  border-radius: 12px;
-  background: #edf2f7;
+  border: 1px solid #dbe3ea;
+  border-radius: 6px;
+  background: #f8fafc;
   font-size: 15px;
   box-sizing: border-box;
 }
 
 .login-body input:focus {
   outline: none;
-  border: 2px solid #52b788;
+  border-color: #1f6feb;
+  box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.12);
 }
 
 .btn-login {
   width: 100%;
   padding: 14px;
   border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+  border-radius: 6px;
+  background: #1f6feb;
   color: white;
   font-size: 16px;
   font-weight: bold;
@@ -71,7 +76,8 @@
 }
 
 .btn-login:hover {
-  transform: scale(1.02);
+  background: #1d4ed8;
+  transform: translateY(-1px);
 }
 
 .btn-login:disabled {
@@ -81,7 +87,7 @@
 }
 
 .error-login {
-  color: red;
+  color: #b91c1c;
   margin-top: 15px;
   text-align: center;
 }

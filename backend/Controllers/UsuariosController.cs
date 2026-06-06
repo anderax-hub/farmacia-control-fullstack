@@ -25,6 +25,20 @@ namespace FarmaciaControlAPI.Controllers
             var usuarios = await _contexto.Usuarios.ToListAsync();
             return Ok(usuarios);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Usuario>> ObtenerUsuario(int id)
+        {
+            var usuario = await _contexto.Usuarios.FindAsync(id);
+
+            if (usuario == null)
+            {
+                return NotFound("Usuario no encontrado");
+            }
+
+            return Ok(usuario);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Usuario>> CrearUsuario(Usuario usuario)
         {

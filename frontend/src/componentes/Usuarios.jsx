@@ -1,67 +1,31 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-
-const API_USUARIOS = 'https://localhost:7120/api/Usuarios'
-const ROLES = ['Administrador', 'Ventas', 'Inventario']
-const ADMINISTRADOR_PRINCIPAL_ID = 1
-
-const obtenerIdUsuario = (usuario) => Number(usuario?.id ?? usuario?.Id)
-
-const esAdministradorPrincipal = (usuario) => {
-  return obtenerIdUsuario(usuario) === ADMINISTRADOR_PRINCIPAL_ID
-}
+import {
+  API_USUARIOS,
+  esAdministradorPrincipal,
+  esSesionActual,
+  normalizarTexto,
+  obtenerUsuarioActual,
+  puedeEliminarUsuario
+} from './usuariosUtils'
 
 function Usuarios() {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const mensajeRuta = location.state?.mensaje
+  const usuarioActual = useMemo(() => obtenerUsuarioActual(), [])
   const [usuarios, setUsuarios] = useState([])
-  const [nombre, setNombre] = useState('')
-  const [correo, setCorreo] = useState('')
-  const [clave, setClave] = useState('')
-  const [rol, setRol] = useState('Ventas')
   const [busqueda, setBusqueda] = useState('')
-  const [usuarioEditando, setUsuarioEditando] = useState(null)
-  const [usuarioAEliminar, setUsuarioAEliminar] = useState(null)
   const [cargando, setCargando] = useState(true)
-  const [guardando, setGuardando] = useState(false)
-  const [eliminando, setEliminando] = useState(false)
-  const [mensaje, setMensaje] = useState('')
+  const [mensaje] = useState(mensajeRuta || '')
   const [error, setError] = useState('')
 
-  const usuarioActual = useMemo(() => {
-    try {
-      return JSON.parse(localStorage.getItem('usuario') || 'null')
-    } catch {
-      return null
+  useEffect(() => {
+    if (mensajeRuta) {
+      navigate('/usuarios', { replace: true, state: null })
     }
-  }, [])
-
-  const esSesionActual = (usuario) => {
-    return obtenerIdUsuario(usuario) === obtenerIdUsuario(usuarioActual)
-  }
-
-  const puedeEliminarUsuario = (usuario) => {
-    return !esAdministradorPrincipal(usuario) && !esSesionActual(usuario)
-  }
-
-  const limpiarFormulario = () => {
-    setNombre('')
-    setCorreo('')
-    setClave('')
-    setRol('Ventas')
-    setUsuarioEditando(null)
-  }
-
-  const cargarUsuarios = async () => {
-    try {
-      const respuesta = await axios.get(API_USUARIOS)
-      setUsuarios(respuesta.data)
-      setError('')
-    } catch (errorPeticion) {
-      console.error('Error al obtener usuarios', errorPeticion)
-      setError('No se pudieron cargar los usuarios')
-    } finally {
-      setCargando(false)
-    }
-  }
+  }, [mensajeRuta, navigate])
 
   useEffect(() => {
     const controlador = new AbortController()
@@ -90,7 +54,7 @@ function Usuarios() {
   }, [])
 
   const usuariosFiltrados = useMemo(() => {
-    const texto = busqueda.trim().toLowerCase()
+    const texto = normalizarTexto(busqueda)
 
     if (!texto) {
       return usuarios
@@ -101,7 +65,7 @@ function Usuarios() {
         usuario.nombre,
         usuario.correo,
         usuario.rol
-      ].some((valor) => valor?.toLowerCase().includes(texto))
+      ].some((valor) => normalizarTexto(valor).includes(texto))
     })
   }, [busqueda, usuarios])
 
@@ -121,162 +85,18 @@ function Usuarios() {
     })
   }, [usuarios])
 
-  const seleccionarUsuario = (usuario) => {
-    setUsuarioEditando(usuario)
-    setNombre(usuario.nombre)
-    setCorreo(usuario.correo)
-    setClave(usuario.clave || '')
-    setRol(usuario.rol)
-    setMensaje('')
-    setError('')
-  }
-
-  const solicitarEliminacion = (usuario) => {
-    if (!puedeEliminarUsuario(usuario)) {
-      setError('Este usuario esta protegido y no se puede eliminar')
-      setMensaje('')
-      return
-    }
-
-    setUsuarioAEliminar(usuario)
-    setMensaje('')
-    setError('')
-  }
-
-  const guardarUsuario = async (e) => {
-    e.preventDefault()
-
-    if (usuarioEditando && esAdministradorPrincipal(usuarioEditando) && rol !== 'Administrador') {
-      setError('El administrador principal debe conservar el rol Administrador')
-      setMensaje('')
-      return
-    }
-
-    setGuardando(true)
-    setMensaje('')
-    setError('')
-
-    const usuario = {
-      nombre: nombre.trim(),
-      correo: correo.trim(),
-      clave: clave.trim(),
-      rol
-    }
-
-    try {
-      if (usuarioEditando) {
-        await axios.put(`${API_USUARIOS}/${usuarioEditando.id}`, {
-          id: usuarioEditando.id,
-          ...usuario
-        })
-        setMensaje('Usuario actualizado correctamente')
-      } else {
-        await axios.post(API_USUARIOS, usuario)
-        setMensaje('Usuario creado correctamente')
-      }
-
-      limpiarFormulario()
-      await cargarUsuarios()
-    } catch (errorPeticion) {
-      console.error('Error al guardar usuario', errorPeticion)
-      setError(String(errorPeticion.response?.data || 'No se pudo guardar el usuario'))
-    } finally {
-      setGuardando(false)
-    }
-  }
-
-  const confirmarEliminacion = async () => {
-    if (!usuarioAEliminar) return
-
-    if (!puedeEliminarUsuario(usuarioAEliminar)) {
-      setUsuarioAEliminar(null)
-      setError('Este usuario esta protegido y no se puede eliminar')
-      setMensaje('')
-      return
-    }
-
-    setEliminando(true)
-    setMensaje('')
-    setError('')
-
-    try {
-      await axios.delete(`${API_USUARIOS}/${usuarioAEliminar.id}`)
-      setMensaje('Usuario eliminado correctamente')
-
-      if (usuarioEditando?.id === usuarioAEliminar.id) {
-        limpiarFormulario()
-      }
-
-      setUsuarioAEliminar(null)
-      await cargarUsuarios()
-    } catch (errorPeticion) {
-      console.error('Error al eliminar usuario', errorPeticion)
-      setError(String(errorPeticion.response?.data || 'No se pudo eliminar el usuario'))
-    } finally {
-      setEliminando(false)
-    }
-  }
-
   return (
     <div className="usuarios-contenedor">
-      <h2>Gestion de Usuarios</h2>
-
-      <form className="formulario-usuario" onSubmit={guardarUsuario}>
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
-        />
-
-        <input
-          type="email"
-          placeholder="Correo"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-          required
-        />
-
-        <input
-          type="password"
-          placeholder="Clave"
-          value={clave}
-          onChange={(e) => setClave(e.target.value)}
-          required
-        />
-
-        <select
-          value={rol}
-          onChange={(e) => setRol(e.target.value)}
-          disabled={usuarioEditando && esAdministradorPrincipal(usuarioEditando)}
-          required
-        >
-          {ROLES.map((rolDisponible) => (
-            <option key={rolDisponible} value={rolDisponible}>
-              {rolDisponible}
-            </option>
-          ))}
-        </select>
-
-        {usuarioEditando && esAdministradorPrincipal(usuarioEditando) && (
-          <p className="aviso-admin-principal">
-            El administrador principal no puede cambiar de rol ni eliminarse.
-          </p>
-        )}
-
-        <div className="acciones-formulario-usuario">
-          <button type="submit" disabled={guardando}>
-            {usuarioEditando ? 'Actualizar usuario' : 'Crear usuario'}
-          </button>
-
-          {usuarioEditando && (
-            <button type="button" className="btn-cancelar" onClick={limpiarFormulario}>
-              Cancelar edicion
-            </button>
-          )}
+      <div className="encabezado-usuarios">
+        <div>
+          <span>Usuarios</span>
+          <h2>Gestion de Usuarios</h2>
         </div>
-      </form>
+
+        <button type="button" className="btn-nuevo-usuario" onClick={() => navigate('/usuarios/nuevo')}>
+          Nuevo usuario
+        </button>
+      </div>
 
       {mensaje && <p className="mensaje-usuario">{mensaje}</p>}
       {error && <p className="error-usuario">{error}</p>}
@@ -329,7 +149,7 @@ function Usuarios() {
             </thead>
             <tbody>
               {usuariosFiltrados.map((usuario) => {
-                const eliminarBloqueado = !puedeEliminarUsuario(usuario)
+                const eliminarBloqueado = !puedeEliminarUsuario(usuario, usuarioActual)
 
                 return (
                   <tr key={usuario.id}>
@@ -339,67 +159,41 @@ function Usuarios() {
                         {esAdministradorPrincipal(usuario) && (
                           <span className="etiqueta-usuario-protegido">Principal</span>
                         )}
-                        {!esAdministradorPrincipal(usuario) && esSesionActual(usuario) && (
+                        {!esAdministradorPrincipal(usuario) && esSesionActual(usuario, usuarioActual) && (
                           <span className="etiqueta-usuario-protegido sesion">Sesion actual</span>
                         )}
                       </div>
                     </td>
-                  <td>{usuario.correo}</td>
-                  <td>
-                    <span className={`estado-rol ${usuario.rol.toLowerCase()}`}>
-                      {usuario.rol}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="acciones-tabla-usuario">
-                      <button type="button" className="btn-editar" onClick={() => seleccionarUsuario(usuario)}>
-                        Editar
-                      </button>
-                      {eliminarBloqueado ? (
-                        <button type="button" className="btn-eliminar btn-deshabilitado" disabled>
-                          Protegido
+                    <td>{usuario.correo}</td>
+                    <td>
+                      <span className={`estado-rol ${usuario.rol.toLowerCase()}`}>
+                        {usuario.rol}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="acciones-tabla-usuario">
+                        <button type="button" className="btn-ver" onClick={() => navigate(`/usuarios/${usuario.id}`)}>
+                          Ver
                         </button>
-                      ) : (
-                        <button type="button" className="btn-eliminar" onClick={() => solicitarEliminacion(usuario)}>
-                          Eliminar
+                        <button type="button" className="btn-editar" onClick={() => navigate(`/usuarios/${usuario.id}/editar`)}>
+                          Editar
                         </button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
+                        {eliminarBloqueado ? (
+                          <button type="button" className="btn-eliminar btn-deshabilitado" disabled>
+                            Protegido
+                          </button>
+                        ) : (
+                          <button type="button" className="btn-eliminar" onClick={() => navigate(`/usuarios/${usuario.id}/eliminar`)}>
+                            Eliminar
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
                 )
               })}
             </tbody>
           </table>
-        </div>
-      )}
-
-      {usuarioAEliminar && (
-        <div className="modal-eliminar-producto" role="dialog" aria-modal="true">
-          <div className="modal-eliminar-card">
-            <h3>Eliminar usuario</h3>
-            <p>
-              Esta accion eliminara <strong>{usuarioAEliminar.nombre}</strong> del sistema.
-            </p>
-            <div className="acciones-modal-eliminar">
-              <button
-                type="button"
-                className="btn-cancelar-eliminar"
-                onClick={() => setUsuarioAEliminar(null)}
-                disabled={eliminando}
-              >
-                Cancelar
-              </button>
-              <button
-                type="button"
-                className="btn-confirmar-eliminar"
-                onClick={confirmarEliminacion}
-                disabled={eliminando}
-              >
-                {eliminando ? 'Eliminando...' : 'Eliminar'}
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </div>

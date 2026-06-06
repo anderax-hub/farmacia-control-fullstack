@@ -36,6 +36,19 @@ namespace FarmaciaControlAPI.Controllers
             return Ok(productos);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Producto>> ObtenerProducto(int id)
+        {
+            var producto = await _contexto.Productos.FindAsync(id);
+
+            if (producto == null)
+            {
+                return NotFound("Producto no encontrado");
+            }
+
+            return Ok(producto);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Producto>> CrearProducto(Producto producto)
         {

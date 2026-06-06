@@ -1,5 +1,7 @@
 .panel {
-  background: #f4f6f8;
+  background:
+    radial-gradient(circle at top left, rgba(31, 111, 235, 0.07), transparent 34%),
+    var(--color-bg, #eef3f7);
   box-sizing: border-box;
   margin-left: 250px;
   min-height: 100vh;
@@ -18,14 +20,14 @@
 .panel-usuario,
 .panel-estado,
 .panel-modulos {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border-soft, #e7edf3);
   border-radius: 8px;
-  box-shadow: 0 8px 22px rgba(17, 24, 39, 0.07);
+  box-shadow: var(--shadow-panel, 0 12px 30px rgba(15, 23, 42, 0.08));
 }
 
 .panel-encabezado > div:first-child {
-  border-left: 5px solid #0f766e;
+  border-left: 5px solid var(--color-primary, #1f6feb);
   padding: clamp(22px, 3vw, 32px);
 }
 
@@ -36,6 +38,7 @@
 .panel-modulo span,
 .panel-metrica span {
   color: #64748b;
+  color: var(--color-muted, #64748b);
   display: block;
   font-size: 12px;
   font-weight: 800;
@@ -44,7 +47,7 @@
 }
 
 .panel h1 {
-  color: #111827;
+  color: var(--color-text, #172033);
   font-size: clamp(30px, 4vw, 44px);
   line-height: 1.05;
   margin: 8px 0 12px;
@@ -54,7 +57,7 @@
 .panel-estado p,
 .panel-modulo p,
 .panel-metrica p {
-  color: #475569;
+  color: var(--color-muted, #64748b);
   line-height: 1.5;
   margin: 0;
 }
@@ -68,7 +71,7 @@
 
 .usuario-avatar {
   align-items: center;
-  background: #0f766e;
+  background: var(--color-primary, #1f6feb);
   border-radius: 50%;
   color: white;
   display: flex;
@@ -81,14 +84,14 @@
 }
 
 .panel-usuario strong {
-  color: #111827;
+  color: var(--color-text, #172033);
   display: block;
   font-size: 18px;
   margin: 4px 0;
 }
 
 .panel-usuario small {
-  color: #0f766e;
+  color: var(--color-primary, #1f6feb);
   font-weight: 800;
 }
 
@@ -110,8 +113,8 @@
 }
 
 .panel-metrica {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border-soft, #e7edf3);
   border-radius: 8px;
   border-left: 4px solid #2563eb;
   padding: 18px;
@@ -130,7 +133,7 @@
 }
 
 .panel-metrica.ganancia {
-  border-left-color: #0f766e;
+  border-left-color: var(--color-accent, #0f766e);
 }
 
 .panel-metrica.usuarios {
@@ -138,7 +141,7 @@
 }
 
 .panel-metrica strong {
-  color: #111827;
+  color: var(--color-text, #172033);
   display: block;
   font-size: clamp(24px, 3vw, 32px);
   margin: 8px 0 4px;
@@ -169,7 +172,7 @@
 
 .panel-seccion-titulo h2,
 .panel-estado h2 {
-  color: #111827;
+  color: var(--color-text, #172033);
   font-size: 22px;
   margin: 4px 0 0;
 }
@@ -182,8 +185,8 @@
 
 .panel-modulo {
   align-items: center;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: var(--color-surface-soft, #f8fafc);
+  border: 1px solid var(--color-border-soft, #e7edf3);
   border-radius: 8px;
   color: inherit;
   display: flex;
@@ -196,19 +199,19 @@
 }
 
 .panel-modulo:hover {
-  border-color: #0f766e;
-  box-shadow: 0 10px 24px rgba(15, 118, 110, 0.13);
+  border-color: var(--color-primary, #1f6feb);
+  box-shadow: 0 12px 24px rgba(31, 111, 235, 0.11);
   transform: translateY(-2px);
 }
 
 .panel-modulo h3 {
-  color: #111827;
+  color: var(--color-text, #172033);
   font-size: 20px;
   margin: 7px 0;
 }
 
 .panel-modulo strong {
-  background: #0f766e;
+  background: var(--color-accent, #0f766e);
   border-radius: 999px;
   color: white;
   flex: 0 0 auto;
@@ -229,8 +232,8 @@
 
 .estado-lista div {
   align-items: center;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: var(--color-surface-soft, #f8fafc);
+  border: 1px solid var(--color-border-soft, #e7edf3);
   border-radius: 8px;
   display: flex;
   gap: 10px;
